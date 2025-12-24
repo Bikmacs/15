@@ -13,34 +13,36 @@
     <Page.Resources>
         <validator:BrandCategoryTagValidator x:Key="brandCategoryTagValidator"/>
     </Page.Resources>
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="240">
-            <Label Content="Добавление тега"
-                   HorizontalContentAlignment="Center"
-                   FontSize="24" FontWeight="SemiBold"
-                   Margin="16"/>
-            <Label Content="Название тега"/>
-            <TextBox x:Name="Name" Validation.ErrorTemplate="{x:Null}" materialDesign:HintAssist.Hint="Введите название тега">
-                <TextBox.Text>
-                    <Binding Path="Name"
-                             UpdateSourceTrigger="PropertyChanged"
-                             ValidatesOnDataErrors="True"
-                             NotifyOnValidationError="True">
-                        <Binding.ValidationRules>
-                            <validator:BrandCategoryTagValidator/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <ItemsControl ItemsSource="{Binding ElementName=Name, Path=(Validation.Errors)}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding ErrorContent}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Button Click="AddTag" Content="Добавить" Margin="0,8"/>
-            <Button Click="Back" Content="Назад" Margin="0,8"/>
-        </StackPanel>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <materialDesign:Card Margin="0" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+            <StackPanel>
+                <TextBlock Text="Новый тег" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="0,0,0,20"/>
+
+                <TextBox x:Name="Name" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                         materialDesign:HintAssist.Hint="Название тега" Margin="0,0,0,5">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <validator:BrandCategoryTagValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <ItemsControl ItemsSource="{Binding ElementName=Name, Path=(Validation.Errors)}" Margin="0,0,0,20">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red" FontSize="12"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Click="Back" Content="Отмена" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0"/>
+                    <Button Click="AddTag" Content="Добавить"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
     </Grid>
 </Page>

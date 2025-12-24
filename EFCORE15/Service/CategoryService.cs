@@ -56,12 +56,6 @@ namespace EFCORE15.Service
 
         public void Remove(Category category)
         {
-            //_db.Remove<Category>(category);
-            //if (Commit() > 0)   
-            //    if (Categories.Contains(category))
-            //        Categories.Remove(category);
-
-
             bool hasProducts = _db.Products.Any(p => p.CategoryId == category.Id);
 
             if (hasProducts)

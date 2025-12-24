@@ -1,30 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using EFCORE15.Models;
 using EFCORE15.Service;
 
 namespace EFCORE15.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для EditBrandPage.xaml
-    /// </summary>
     public partial class EditBrandPage : Page
     {
-        Brand _brand = new();
+        Brand _brand;
         BrandService service = new();
         bool IsEdit = false;
+
         public EditBrandPage(Brand? brand = null)
         {
             InitializeComponent();
@@ -34,39 +21,59 @@ namespace EFCORE15.Pages
                 _brand = brand;
                 IsEdit = true;
             }
+            else
+            {
+                _brand = new Brand(); 
+            }
+
             DataContext = _brand;
+
             if (Application.Current.MainWindow != null)
             {
-                Application.Current.MainWindow.Title = "Редактирование бренда";
+                Application.Current.MainWindow.Title = IsEdit ? "Редактирование бренда" : "Новый бренд";
             }
         }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(_brand.Name))
+            {
+                MessageBox.Show("Введите название бренда");
+                return;
+            }
+
             if (IsEdit)
                 service.Commit();
             else
-                service.Add(_brand);
-            Back(sender, e);
+                service.Add(_brand); 
+
+            MessageBox.Show("Успешно сохранено");
+            NavigationService.GoBack();
         }
 
         private void Delete(object sender, RoutedEventArgs e)
         {
-            if (_brand != null)
-                if (MessageBox.Show(
-                    "Вы действительно хотите удалить это?",
-                    "Удалить группу?",
-                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (!IsEdit) return;
+
+            var result = MessageBox.Show(
+                $"Вы действительно хотите удалить бренд '{_brand.Name}'?",
+                "Подтверждение удаления",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
                 {
                     service.Remove(_brand);
-                    Back(sender, e);
+                    MessageBox.Show("Бренд удален");
+                    NavigationService.GoBack();
                 }
-                else
-                    MessageBox.Show(
-                        "Выберите для удаления",
-                        "Выберите",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при удалении. Возможно, этот бренд используется в товарах.\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void Back(object sender, RoutedEventArgs e)

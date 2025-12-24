@@ -6,14 +6,13 @@ namespace EFCORE15.Pages
 {
     public partial class LoginPage : Page
     {
-        private bool managerMode = false;
         private readonly string pinCode = "1234";
 
         public LoginPage()
         {
             InitializeComponent();
             if (Application.Current.MainWindow != null)
-                Application.Current.MainWindow.Title = "Выбор роли";
+                Application.Current.MainWindow.Title = "Авторизация";
         }
 
         private void UserLogin(object sender, RoutedEventArgs e)
@@ -25,16 +24,20 @@ namespace EFCORE15.Pages
         {
             RoleSelectionPanel.Visibility = Visibility.Collapsed;
             PinCodePanel.Visibility = Visibility.Visible;
+
+            PinCodeField.Password = ""; 
         }
 
         private void CheckPinAndLogin(object sender, RoutedEventArgs e)
         {
             if (PinCodeField.Password == pinCode)
+            {
                 NavigationService.Navigate(new MainPage(true));
+            }
             else
             {
                 MessageBox.Show("Неверный ПИН-код", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                PinCodeField.Clear();
+                PinCodeField.Password = "";
             }
         }
 
@@ -42,7 +45,7 @@ namespace EFCORE15.Pages
         {
             PinCodePanel.Visibility = Visibility.Collapsed;
             RoleSelectionPanel.Visibility = Visibility.Visible;
+            PinCodeField.Password = "";
         }
-
     }
 }

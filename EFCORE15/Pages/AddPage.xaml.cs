@@ -122,5 +122,8 @@ namespace EFCORE15.Pages
         {
             NavigationService.Navigate(new AddBrandPage());
         }
+
+       
+      
     }
 }

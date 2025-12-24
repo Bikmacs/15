@@ -5,29 +5,56 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EFCORE15.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:validator="clr-namespace:EFCORE15.Validators"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Изменение бренда">
+      d:DesignHeight="350" d:DesignWidth="500"
+      Title="Редактирование бренда">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
-                    HorizontalAlignment="Center" VerticalAlignment="Center" 
-                    Width="320">
-            <Label Content="Изменение бренда"
-                   HorizontalContentAlignment="Center"
-                   FontSize="24" FontWeight="SemiBold"
-                   Margin="16"/>
+    <Page.Resources>
+        <validator:BrandCategoryTagValidator x:Key="brandCategoryTagValidator"/>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <materialDesign:Card Margin="0" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
             <StackPanel>
-                <Label Content="Название бренда"/>
-                <TextBox Text="{Binding Name}" materialDesign:HintAssist.Hint="Введите название бренда"/>
+                <TextBlock Text="Редактирование бренда" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="0,0,0,20"/>
+
+                <TextBox x:Name="BrandNameInput" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                         materialDesign:HintAssist.Hint="Название бренда" Margin="0,0,0,5">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <validator:BrandCategoryTagValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <ItemsControl ItemsSource="{Binding ElementName=BrandNameInput, Path=(Validation.Errors)}" Margin="0,0,0,20">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red" FontSize="12"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Click="Delete" Content="Удалить" 
+                            Style="{StaticResource MaterialDesignOutlinedButton}" 
+                            Foreground="Red" BorderBrush="Red" Padding="10,5"/>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Button Click="Back" Content="Отмена" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0"/>
+                        <Button Click="Edit" Content="Сохранить"/>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
-            <Button Click="Edit" Content="Изменить" Margin="0,8"/>
-            <Button Click="Delete" Content="Удалить" Margin="0,8"/>
-        </StackPanel>
-        <Button Click="Back" Content="Назад" Grid.Row="1"/>
+        </materialDesign:Card>
     </Grid>
 </Page>

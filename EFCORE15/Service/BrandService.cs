@@ -50,12 +50,6 @@ namespace EFCORE15.Service
 
         public void Remove(Brand brand)
         {
-            //_db.Remove<Brand>(brand);
-            //if (Commit() > 0)
-            //    if (Brands.Contains(brand))
-            //        Brands.Remove(brand);
-
-
             bool hasProducts = _db.Products.Any(p => p.BrandId == brand.Id);
 
             if (hasProducts)

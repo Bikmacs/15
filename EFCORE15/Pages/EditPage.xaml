@@ -7,222 +7,118 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:validator="clr-namespace:EFCORE15.Validators"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Изменение товара" Loaded="LoadList">
+      d:DesignHeight="550" d:DesignWidth="900"
+      Title="Редактирование товара">
+
     <Page.Resources>
         <validator:NameValidator x:Key="nameValidator"/>
-        <validator:DescriptionValidator x:Key="descriptionValidator"/>
         <validator:PriceValidator x:Key="priceValidator"/>
         <validator:StockValidator x:Key="stockValidator"/>
         <validator:RatingValidator x:Key="ratingValidator"/>
-        <validator:DateValidator x:Key="dateValidator"/>
-        <validator:ComboBoxValidator x:Key="comboBoxValidator"/>
+        <validator:DescriptionValidator x:Key="descriptionValidator"/>
     </Page.Resources>
-    <Grid>
+
+    <Grid Margin="30">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+
+        <TextBlock Text="Редактирование товара" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0,0,0,20"/>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0"
-                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                        Width="320">
-                <Label Content="Изменение товара"
-                       HorizontalContentAlignment="Center"
-                       FontSize="24" FontWeight="SemiBold"
-                       Margin="16"/>
-                <StackPanel>
-                    <Label Content="Название"/>
-                    <TextBox x:Name="Name" materialDesign:HintAssist.Hint="Введите название" Validation.ErrorTemplate="{x:Null}">
+
+            <StackPanel Grid.Column="0">
+                <TextBox x:Name="Name" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Название товара" Margin="0,0,0,15">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <validator:NameValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="CategoryComboBox" Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Категория"
+                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                    <ComboBox x:Name="BrandComboBox" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Бренд"
+                              ItemsSource="{Binding Brands}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="Price" Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Цена">
                         <TextBox.Text>
-                            <Binding Path="Product.Name"
-                                     UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validator:NameValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=Name, Path=(Validation.Errors)}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Описание"/>
-                    <TextBox x:Name="Description" materialDesign:HintAssist.Hint="Введите описание" Validation.ErrorTemplate="{x:Null}">
-                        <TextBox.Text>
-                            <Binding Path="Product.Description"
-                                     UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validator:DescriptionValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=Description, Path=(Validation.Errors)}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Цена"/>
-                    <TextBox x:Name="Price" materialDesign:HintAssist.Hint="Введите цену" Validation.ErrorTemplate="{x:Null}">
-                        <TextBox.Text>
-                            <Binding Path="Product.Price"
-                                     UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:PriceValidator/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=Price, Path=(Validation.Errors)}" Validation.ErrorTemplate="{x:Null}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Количество"/>
-                    <TextBox x:Name="Stock" materialDesign:HintAssist.Hint="Введите количество" Validation.ErrorTemplate="{x:Null}">
+
+                    <TextBox x:Name="Stock" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Кол-во">
                         <TextBox.Text>
-                            <Binding Path="Product.Stock"
-                                     UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Stock" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:StockValidator/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=Stock, Path=(Validation.Errors)}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Рейтинг"/>
-                    <TextBox x:Name="Rating" materialDesign:HintAssist.Hint="Введите рейтинг" Validation.ErrorTemplate="{x:Null}">
+
+                    <TextBox x:Name="Rating" Grid.Column="4" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Рейтинг">
                         <TextBox.Text>
-                            <Binding Path="Product.Rating"
-                                     UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Rating" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:RatingValidator/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=Rating, Path=(Validation.Errors)}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Дата создания"/>
-                    <DatePicker x:Name="CreatedAt" Validation.ErrorTemplate="{x:Null}">
-                        <DatePicker.SelectedDate>
-                            <Binding Path="Product.CreatedAt"
-                                     UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validator:DateValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </DatePicker.SelectedDate>
-                    </DatePicker>
-                    <ItemsControl ItemsSource="{Binding ElementName=CreatedAt, Path=(Validation.Errors)}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding ErrorContent}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Категория"/>
-                    <ComboBox ItemsSource="{Binding Categories}"
-                              DisplayMemberPath="Name"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding Product.CategoryId}" />
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Бренд"/>
-                    <ComboBox ItemsSource="{Binding Brands}"
-                              DisplayMemberPath="Name"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding Product.BrandId}" />
-                </StackPanel>
-                <Button Click="Edit" Content="Изменить" Margin="0,8"/>
-                <Button Click="Delete" Content="Удалить" Margin="0,8"/>
-            </StackPanel>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <ListView Grid.Row="0"
-                          ItemsSource="{Binding Tags}" 
-                          SelectedItem="{Binding SelectedTag}"
-                          Name="TagsList"
-                          HorizontalContentAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <Run Text="ID: "/>
-                                <Run Text="{Binding Id}"/>
-                                <Run Text=" | "/>
-                                <Run Text="Название: "/>
-                                <Run Text="{Binding Name}"/>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Click="AddTag" Content="Добавить"/>
-                    <Button Grid.Column="1" Click="RemoveTag" Content="Убрать"/>
                 </Grid>
-                <ListView Grid.Row="2"
-                          ItemsSource="{Binding ProductTags}"
-                          SelectedItem="{Binding SelectedProductTag}"
-                          x:Name="ProductTagsList"
-                          HorizontalContentAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <Run Text="ID: "/>
-                                <Run Text="{Binding Id}"/>
-                                <Run Text=" | "/>
-                                <Run Text="Название: "/>
-                                <Run Text="{Binding Name}"/>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <TextBox x:Name="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Описание"
+                         Height="100" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,15">
+                    <TextBox.Text>
+                        <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validator:DescriptionValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBlock Text="Теги" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox x:Name="TagList" Height="100" SelectionMode="Multiple"
+                         ItemsSource="{Binding Tags}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+            </StackPanel>
         </Grid>
-        
-        <Button Click="Back" Content="Назад" Grid.Row="1"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Click="Back" Content="Отмена" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0"/>
+            <Button Click="EditProduct" Content="Сохранить изменения" Width="180"/>
+        </StackPanel>
     </Grid>
 </Page>
