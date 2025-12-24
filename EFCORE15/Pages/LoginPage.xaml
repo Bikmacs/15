@@ -1,0 +1,23 @@
+﻿<Page x:Class="EFCORE15.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="400" d:DesignWidth="600"
+      Title="Авторизация">
+
+    <Grid>
+        <WrapPanel x:Name="RoleSelectionPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250" >
+            <Button Content="Посетитель" Click="UserLogin" Margin="5"/>
+            <Button Content="Менеджер" Click="ShowPinPanel" Margin="5"/>
+        </WrapPanel>
+
+        <StackPanel x:Name="PinCodePanel" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+            <TextBlock Text="Введите пароль"/>
+            <PasswordBox x:Name="PinCodeField" MaxLength="4" Height="35"/>
+            <Button Content="Войти" Click="CheckPinAndLogin" Height="35"/>
+            <Button Content="Назад" Click="BackToRoles" Height="35"/>
+        </StackPanel>
+    </Grid>
+</Page>
