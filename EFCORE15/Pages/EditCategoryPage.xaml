@@ -11,7 +11,7 @@
       Title="Редактирование категории">
 
     <Page.Resources>
-        <validator:BrandCategoryTagValidator x:Key="brandCategoryTagValidator"/>
+        <validator:BrandCateValidator x:Key="brandCategoryTagValidator"/>
     </Page.Resources>
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
@@ -24,7 +24,7 @@
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
-                                <validator:BrandCategoryTagValidator/>
+                                <validator:BrandCateValidator/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -38,7 +38,10 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Click="Delete" HorizontalAlignment="Left" Content="Удалить" Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="Red" BorderBrush="Red" Padding="10,5"/>
                     <Button Click="Back" Content="Отмена" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0"/>
                     <Button Click="Edit" Content="Сохранить"/>
                 </StackPanel>

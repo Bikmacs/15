@@ -8,8 +8,8 @@
       xmlns:validator="clr-namespace:EFCORE15.Validators"
       mc:Ignorable="d" 
       d:DesignHeight="550" d:DesignWidth="900"
-      Title="Редактирование товара">
-
+      Title="Редактирование товара"
+      Loaded="LoadList">
     <Page.Resources>
         <validator:NameValidator x:Key="nameValidator"/>
         <validator:PriceValidator x:Key="priceValidator"/>
@@ -37,7 +37,7 @@
             <StackPanel Grid.Column="0">
                 <TextBox x:Name="Name" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Название товара" Margin="0,0,0,15">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                        <Binding Path="Product.Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
                                 <validator:NameValidator/>
                             </Binding.ValidationRules>
@@ -51,10 +51,14 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
                     <ComboBox x:Name="CategoryComboBox" Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Категория"
-                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                              SelectedValue="{Binding Product.CategoryId, UpdateSourceTrigger=PropertyChanged}"/>
+
                     <ComboBox x:Name="BrandComboBox" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Бренд"
-                              ItemsSource="{Binding Brands}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              ItemsSource="{Binding Brands}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                              SelectedValue="{Binding Product.BrandId, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid>
@@ -68,7 +72,7 @@
 
                     <TextBox x:Name="Price" Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Цена">
                         <TextBox.Text>
-                            <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Product.Price" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:PriceValidator/>
                                 </Binding.ValidationRules>
@@ -78,7 +82,7 @@
 
                     <TextBox x:Name="Stock" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Кол-во">
                         <TextBox.Text>
-                            <Binding Path="Stock" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Product.Stock" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:StockValidator/>
                                 </Binding.ValidationRules>
@@ -88,7 +92,7 @@
 
                     <TextBox x:Name="Rating" Grid.Column="4" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Рейтинг">
                         <TextBox.Text>
-                            <Binding Path="Rating" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Product.Rating" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validator:RatingValidator/>
                                 </Binding.ValidationRules>
@@ -102,7 +106,7 @@
                 <TextBox x:Name="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Описание"
                          Height="100" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,15">
                     <TextBox.Text>
-                        <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Product.Description" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validator:DescriptionValidator/>
                             </Binding.ValidationRules>

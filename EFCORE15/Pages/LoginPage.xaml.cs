@@ -36,7 +36,7 @@ namespace EFCORE15.Pages
             }
             else
             {
-                MessageBox.Show("Неверный ПИН-код", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Неверный код", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 PinCodeField.Password = "";
             }
         }

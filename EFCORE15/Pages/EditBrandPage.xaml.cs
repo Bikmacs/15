@@ -38,7 +38,7 @@ namespace EFCORE15.Pages
         {
             if (string.IsNullOrWhiteSpace(_brand.Name))
             {
-                MessageBox.Show("Введите название бренда");
+                MessageBox.Show("Введите название");
                 return;
             }
 
@@ -47,7 +47,7 @@ namespace EFCORE15.Pages
             else
                 service.Add(_brand); 
 
-            MessageBox.Show("Успешно сохранено");
+            MessageBox.Show("сохранено");
             NavigationService.GoBack();
         }
 
@@ -56,7 +56,7 @@ namespace EFCORE15.Pages
             if (!IsEdit) return;
 
             var result = MessageBox.Show(
-                $"Вы действительно хотите удалить бренд '{_brand.Name}'?",
+                $"Вы хотите удалить  '{_brand.Name}'?",
                 "Подтверждение удаления",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
@@ -71,7 +71,7 @@ namespace EFCORE15.Pages
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при удалении. Возможно, этот бренд используется в товарах.\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Ошибка при удалении.\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

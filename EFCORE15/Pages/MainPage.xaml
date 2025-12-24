@@ -13,8 +13,8 @@
       Title="Товары электроники" Loaded="LoadList">
     
     <Page.Resources>
-        <converter:TagConverter x:Key="tagConverter"/>
-        <converters:ProductStockBorderConverter x:Key="borderConverter"/>
+        <converter:ConvertorTags x:Key="tagConverter"/>
+        <converters:ConvertorStck x:Key="borderConverter"/>
 
         <validator:PriceOtDo x:Key="priceInMainPageValidator"/>
     </Page.Resources>
@@ -97,7 +97,7 @@
                         <TextBox.Text>
                             <Binding Path="filterPriceFrom" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <validator:PriceOtDo ValidatesOnTargetUpdated="True"/>
+                                    <validator:PriceOtDo/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -108,7 +108,7 @@
                         <TextBox.Text>
                             <Binding Path="filterPriceTo" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <validator:PriceOtDo ValidatesOnTargetUpdated="True"/>
+                                    <validator:PriceOtDo/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -161,7 +161,7 @@
                             </TextBlock>
 
                             <TextBlock Grid.Row="1" Grid.Column="0">
-                                <Run Text="★ "/>
+                                <Run Text="★" Foreground="#FFD700"/>   
                                 <Run Text="{Binding Rating}"/>
                             </TextBlock>
 

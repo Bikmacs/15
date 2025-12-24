@@ -45,6 +45,7 @@ namespace EFCORE15.Pages
             {
                 Application.Current.MainWindow.Title = "Добавление/изменение";
             }
+
         }
 
         private void LoadList(object sender, RoutedEventArgs e)

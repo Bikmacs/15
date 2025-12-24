@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace EFCORE15.Converters
 {
-    public class ProductStockBorderConverter : IValueConverter
+    public class ConvertorStck : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {

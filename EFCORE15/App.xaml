@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
-            <SolidColorBrush x:Key="MaterialDesign.Brush.Background" Color="#00b4c4"/>
+            <SolidColorBrush x:Key="MaterialDesign.Brush.Background" Color="Gray"/>
             <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Foreground" Color="#dfeaeb"/>
             <SolidColorBrush x:Key="MaterialDesign.Brush.Primary" Color="#00C4B4"/>
             <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary" Color="#00b4c4"/>

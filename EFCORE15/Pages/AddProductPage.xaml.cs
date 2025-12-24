@@ -51,15 +51,29 @@ namespace EFCORE15.Pages
             LoadCategories();
             LoadBrands();
 
+;
+            if (Product.Tags != null)
+            {
+                foreach (var t in Product.Tags)
+                {
+                    ProductTags.Add(t);
+                    var tagToRemove = Tags.FirstOrDefault(x => x.Id == t.Id);
+                    if (tagToRemove != null)
+                    {
+                        Tags.Remove(tagToRemove);
+                    }
+                }
+            }
+
             IsEdit = product != null;
 
             DataContext = this;
+
             if (Application.Current.MainWindow != null)
             {
-                Application.Current.MainWindow.Title = "Добавление товара";
+                Application.Current.MainWindow.Title = IsEdit ? "Редактирование товара" : "Добавление товара";
             }
         }
-
         private void LoadList(object sender, RoutedEventArgs e)
         {
             Tags.Clear();

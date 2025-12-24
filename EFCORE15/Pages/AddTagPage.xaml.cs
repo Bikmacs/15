@@ -45,6 +45,7 @@ namespace EFCORE15.Pages
         {
             if (string.IsNullOrWhiteSpace(TagNameInput.Text))
             {
+                                        
                 MessageBox.Show("Введите название бренда");
             }
             else

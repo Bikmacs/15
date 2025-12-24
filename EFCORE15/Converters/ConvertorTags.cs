@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace EFCORE15.Converters
 {
-    public class TagConverter : IValueConverter
+    public class ConvertorTags : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

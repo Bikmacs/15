@@ -11,7 +11,7 @@
       Title="Добавление тега">
 
     <Page.Resources>
-        <validator:BrandCategoryTagValidator x:Key="brandCategoryTagValidator"/>
+        <validator:BrandCateValidator x:Key="brandCategoryTagValidator"/>
     </Page.Resources>
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
@@ -24,7 +24,7 @@
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
-                                <validator:BrandCategoryTagValidator/>
+                                <validator:BrandCateValidator/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>

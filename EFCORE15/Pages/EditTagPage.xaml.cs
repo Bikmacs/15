@@ -37,7 +37,7 @@ namespace EFCORE15.Pages
             DataContext = _tag;
             if (Application.Current.MainWindow != null)
             {
-                Application.Current.MainWindow.Title = "Редактирование тега";
+                Application.Current.MainWindow.Title = "Редактирование";
             }
         }
 
@@ -54,8 +54,8 @@ namespace EFCORE15.Pages
         {
             if (_tag != null)
                 if (MessageBox.Show(
-                    "Вы действительно хотите удалить это?",
-                    "Удалить группу?",
+                    "Вы хотите удалить?",
+                    "Удалить?",
                     MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     service.Remove(_tag);
