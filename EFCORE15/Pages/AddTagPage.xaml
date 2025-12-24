@@ -19,7 +19,7 @@
             <StackPanel>
                 <TextBlock Text="Новый тег" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="0,0,0,20"/>
 
-                <TextBox x:Name="Name" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                <TextBox x:Name="TagNameInput" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                          materialDesign:HintAssist.Hint="Название тега" Margin="0,0,0,5">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
@@ -30,7 +30,7 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <ItemsControl ItemsSource="{Binding ElementName=Name, Path=(Validation.Errors)}" Margin="0,0,0,20">
+                <ItemsControl ItemsSource="{Binding ElementName=TagNameInput, Path=(Validation.Errors)}" Margin="0,0,0,20">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ErrorContent}" Foreground="Red" FontSize="12"/>

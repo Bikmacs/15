@@ -16,7 +16,7 @@
         <converter:TagConverter x:Key="tagConverter"/>
         <converters:ProductStockBorderConverter x:Key="borderConverter"/>
 
-        <validator:PriceInMainPageValidator x:Key="priceInMainPageValidator"/>
+        <validator:PriceOtDo x:Key="priceInMainPageValidator"/>
     </Page.Resources>
 
     <Grid>
@@ -93,17 +93,26 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="от" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,5"/>
-                    <TextBox x:Name="priceFromText"
-                     Grid.Row="0" Grid.Column="1"
-                     Text="{Binding filterPriceFrom, UpdateSourceTrigger=PropertyChanged}"
-                     TextChanged="FilterPrice_TextChanged"
-                     Margin="0,0,0,5"/>
+                    <TextBox x:Name="priceFromText" Grid.Row="0" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
+                        <TextBox.Text>
+                            <Binding Path="filterPriceFrom" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validator:PriceOtDo ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <TextBlock Text="до" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                    <TextBox x:Name="priceToText"
-                     Grid.Row="1" Grid.Column="1"
-                     Text="{Binding filterPriceTo, UpdateSourceTrigger=PropertyChanged}"
-                     TextChanged="FilterPrice_TextChanged"/>
+                    <TextBox x:Name="priceToText" Grid.Row="1" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
+                        <TextBox.Text>
+                            <Binding Path="filterPriceTo" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validator:PriceOtDo ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </Grid>
             </GroupBox>
 

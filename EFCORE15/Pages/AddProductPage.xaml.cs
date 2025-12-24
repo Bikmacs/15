@@ -90,7 +90,7 @@ namespace EFCORE15.Pages
         private void AddProduct(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) || string.IsNullOrEmpty(Price.Text)
-                || string.IsNullOrEmpty(Stock.Text) || string.IsNullOrEmpty(Rating.Text) || string.IsNullOrEmpty(CreatedAt.Text))
+                || string.IsNullOrEmpty(Stock.Text) || string.IsNullOrEmpty(Rating.Text))
             {
                 MessageBox.Show("Заполните все поля", "Внимание",
                     MessageBoxButton.OK, MessageBoxImage.Warning);

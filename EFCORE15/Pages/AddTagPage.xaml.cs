@@ -43,7 +43,7 @@ namespace EFCORE15.Pages
 
         private void AddTag(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(Name.Text))
+            if (string.IsNullOrWhiteSpace(TagNameInput.Text))
             {
                 MessageBox.Show("Введите название бренда");
             }
