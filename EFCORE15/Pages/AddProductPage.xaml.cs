@@ -1,22 +1,13 @@
 ﻿using EFCORE15.Service;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using EFCORE15.Models;
 
 namespace EFCORE15.Pages
@@ -42,6 +33,7 @@ namespace EFCORE15.Pages
         public Tag? SelectedProductTag { get; set; }
         public Product Product { get; set; }
         bool IsEdit = false;
+
         public AddProductPage(Product? product = null)
         {
             InitializeComponent();
@@ -50,20 +42,6 @@ namespace EFCORE15.Pages
 
             LoadCategories();
             LoadBrands();
-
-;
-            if (Product.Tags != null)
-            {
-                foreach (var t in Product.Tags)
-                {
-                    ProductTags.Add(t);
-                    var tagToRemove = Tags.FirstOrDefault(x => x.Id == t.Id);
-                    if (tagToRemove != null)
-                    {
-                        Tags.Remove(tagToRemove);
-                    }
-                }
-            }
 
             IsEdit = product != null;
 
@@ -74,6 +52,7 @@ namespace EFCORE15.Pages
                 Application.Current.MainWindow.Title = IsEdit ? "Редактирование товара" : "Добавление товара";
             }
         }
+
         private void LoadList(object sender, RoutedEventArgs e)
         {
             Tags.Clear();
@@ -81,6 +60,21 @@ namespace EFCORE15.Pages
 
             foreach (var c in tagService.Tags)
                 Tags.Add(c);
+
+            if (Product.Tags != null)
+            {
+                ProductTags.Clear(); 
+                foreach (var t in Product.Tags)
+                {
+                    ProductTags.Add(t);
+
+                    var tagToRemove = Tags.FirstOrDefault(x => x.Id == t.Id);
+                    if (tagToRemove != null)
+                    {
+                        Tags.Remove(tagToRemove);
+                    }
+                }
+            }
         }
 
         private void LoadCategories()
@@ -103,34 +97,65 @@ namespace EFCORE15.Pages
 
         private void AddProduct(object sender, RoutedEventArgs e)
         {
+            // 1. Проверка на пустые поля
             if (string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) || string.IsNullOrEmpty(Price.Text)
                 || string.IsNullOrEmpty(Stock.Text) || string.IsNullOrEmpty(Rating.Text))
             {
                 MessageBox.Show("Заполните все поля", "Внимание",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            else if (Product.CategoryId == 0)
+
+            if (Validation.GetHasError(Name) ||
+                Validation.GetHasError(Price) ||
+                Validation.GetHasError(Stock) ||
+                Validation.GetHasError(Rating) ||
+                Validation.GetHasError(Description))
+            {
+                MessageBox.Show("Введены некорректные данные.\nИсправьте ошибки, выделенные красным.",
+                    "Ошибка валидации",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            if (Product.CategoryId == 0)
             {
                 MessageBox.Show(
                     "Выберите категорию",
                     "Ошибка",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
+                return;
             }
-            else if (Product.BrandId == 0)
+
+            if (Product.BrandId == 0)
             {
                 MessageBox.Show(
                     "Выберите бренд",
                     "Ошибка",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
+                return;
             }
-            else
+
+            try
             {
                 if (IsEdit)
+                {
                     service.Commit();
+                    MessageBox.Show("Изменения успешно сохранены", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 else
+                {
                     service.Add(Product);
+                }
+
+                Back(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

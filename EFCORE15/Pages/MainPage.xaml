@@ -9,14 +9,14 @@
       xmlns:validator="clr-namespace:EFCORE15.Validators"
       xmlns:converters="clr-namespace:EFCORE15.Converters"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1000"
-      Title="Товары электроники" Loaded="LoadList">
-    
-    <Page.Resources>
-        <converter:ConvertorTags x:Key="tagConverter"/>
-        <converters:ConvertorStck x:Key="borderConverter"/>
+      d:DesignHeight="800" d:DesignWidth="800"
+      Background="{StaticResource MaterialDesign.Brush.Background}"
+      Loaded="LoadList">
 
-        <validator:PriceOtDo x:Key="priceInMainPageValidator"/>
+    <Page.Resources>
+        <converter:ConvertorTags x:Key="TagC"/>
+        <converters:ConvertorStck x:Key="сnvertorStck"/>
+        <validator:PriceOtDo x:Key="PriceOtDo"/>
     </Page.Resources>
 
     <Grid>
@@ -29,17 +29,18 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="10,10,0,10" MinWidth="220">
 
-            <TextBlock Text="Поиск" FontWeight="Bold"/>
-            <TextBox x:Name="searchText"
-             Text="{Binding searchQuery, UpdateSourceTrigger=PropertyChanged}"
-             TextChanged="Search_TextChanged"
-             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-             materialDesign:HintAssist.Hint="Введите текст"
-             Margin="0,5,0,0"/>
+        <TextBox x:Name="searchText"  
+          Text="{Binding searchQuery, UpdateSourceTrigger=PropertyChanged}"
+          TextChanged="Search_TextChanged"
+                         Grid.ColumnSpan="2"
+          Style="{StaticResource MaterialDesignOutlinedTextBox}"
+          materialDesign:HintAssist.Hint="Введите текст"/>
+        
+        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Top" MinWidth="220">
 
-            <TextBlock Text="Сортировка" FontWeight="Bold" Margin="0,15,0,0"/>
+   
+            <TextBlock Text="Сортировка" FontWeight="Bold" Margin="0,65,0,0"/>
 
             <ComboBox x:Name="PriceComboBox" 
               SelectionChanged="Price_SelectionChanged"
@@ -49,6 +50,17 @@
                 <ComboBox.Items>
                     <ComboBoxItem Tag="ascendingPrice">По возрастанию</ComboBoxItem>
                     <ComboBoxItem Tag="descendingPrice">По убыванию</ComboBoxItem>
+                </ComboBox.Items>
+            </ComboBox>
+
+            <ComboBox x:Name="SortNameComboBox" 
+              SelectionChanged="SortName_SelectionChanged"
+              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+              materialDesign:HintAssist.Hint="По названию"
+              Margin="0,5,0,0">
+                <ComboBox.Items>
+                    <ComboBoxItem Tag="nameAZ">a-z</ComboBoxItem>
+                    <ComboBoxItem Tag="nameZA">z-a</ComboBoxItem>
                 </ComboBox.Items>
             </ComboBox>
 
@@ -69,8 +81,7 @@
               SelectionChanged="CategoriesComboBox_SelectionChanged"
               DisplayMemberPath="Name"
               SelectedValuePath="Id"
-              Style="{StaticResource MaterialDesignOutlinedComboBox}"
-              materialDesign:HintAssist.Hint="Выберите категорию"/>
+              Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
 
             <TextBlock Text="Бренд" Margin="0,10,0,0" FontWeight="SemiBold"/>
             <ComboBox ItemsSource="{Binding Brands}"
@@ -78,56 +89,48 @@
               SelectionChanged="BrandsComboBox_SelectionChanged"
               DisplayMemberPath="Name"
               SelectedValuePath="Id"
-              Style="{StaticResource MaterialDesignOutlinedComboBox}"
-              materialDesign:HintAssist.Hint="Выберите бренд"/>
+              Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
 
-            <GroupBox Header="Цена" Margin="0,15,0,0" Style="{StaticResource MaterialDesignCardGroupBox}">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <TextBlock Text="от" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,5"/>
-                    <TextBox x:Name="priceFromText" Grid.Row="0" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
-                        <TextBox.Text>
-                            <Binding Path="filterPriceFrom" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validator:PriceOtDo/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                <Label Grid.Row="0" Content="Цена" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                <TextBlock Text="от" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="priceFromText" Grid.Row="1" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
+                    <TextBox.Text>
+                        <Binding Path="filterPriceFrom" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validator:PriceOtDo/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
-                    <TextBlock Text="до" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                    <TextBox x:Name="priceToText" Grid.Row="1" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
-                        <TextBox.Text>
-                            <Binding Path="filterPriceTo" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validator:PriceOtDo/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </Grid>
-            </GroupBox>
+                <TextBlock Text="до" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox x:Name="priceToText" Grid.Row="2" Grid.Column="1" TextChanged="FilterPrice_TextChanged">
+                    <TextBox.Text>
+                        <Binding Path="filterPriceTo" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validator:PriceOtDo/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
 
-            <Button Click="Reset" Content="Сбросить фильтры" 
-            Margin="0,20,0,0" 
-            Style="{StaticResource MaterialDesignOutlinedButton}"/>
+            <Button x:Name="managerAddButton" Click="Add" Content="Добавить товар" Visibility="Visible"/>
 
-            <Button x:Name="managerAddButton" Click="Add" Content="Добавить товар" 
-            Visibility="Visible" 
-            Margin="0,10,0,0" 
-            Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <Button Click="Reset" Content="Сбросить фильтры"/>
 
-            <Button Click="Logout" Content="Выйти" 
-            Margin="0,10,0,0" 
-            Style="{StaticResource MaterialDesignFlatButton}" Foreground="Gray"/>
+            <Button Click="Logout" Content="Выйти"/>
         </StackPanel>
         <ListView Grid.Row="1" Grid.Column="1"
                   ItemsSource="{Binding products}" Name="ProductsList"
@@ -137,9 +140,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        BorderThickness="2"
-                        CornerRadius="2"
-                        BorderBrush="{Binding Stock, Converter={StaticResource borderConverter}}">
+                        BorderThickness="10"
+                        BorderBrush="{Binding Stock, Converter={StaticResource сnvertorStck}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -175,7 +177,7 @@
                                 <Run Text="{Binding Stock}"/>
                             </TextBlock>
 
-                            <TextBlock Text="{Binding Tags, Converter={StaticResource tagConverter}}" FontWeight="Light" Grid.Row="4" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Tags, Converter={StaticResource TagC}}" Grid.Row="4" Grid.Column="0"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -190,4 +192,6 @@
                        VerticalAlignment="Center"/>
         </WrapPanel>
     </Grid>
+
+    
 </Page>

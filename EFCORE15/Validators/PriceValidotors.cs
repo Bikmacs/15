@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace EFCORE15.Validators
 
 {
-    public class PriceInMainPageValidator : ValidationRule
+    public class c : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

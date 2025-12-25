@@ -46,6 +46,7 @@ namespace EFCORE15.Pages
 
         public int? SelectedCategoryId { get; set; }
         public int? SelectedBrandId { get; set; }
+
         bool _manager = false;
         public MainPage(bool manager)
         {
@@ -117,6 +118,8 @@ namespace EFCORE15.Pages
 
         private void LoadList(object sender, RoutedEventArgs e)
         {
+            LoadCategories();
+            LoadBrands();
             products.Clear();
 
             var loadedProducts = db.Products
@@ -126,9 +129,6 @@ namespace EFCORE15.Pages
                 .ToList();
             foreach (var product in loadedProducts)
             {
-                //Debug.WriteLine($"Продукт: {product.Name}");
-                //Debug.WriteLine($"Категория: {product.Category?.Name ?? "null"}");
-                //Debug.WriteLine($"Теги: {product.Tags?.Count ?? 0}");
 
                 products.Add(product);
             }
@@ -238,6 +238,22 @@ namespace EFCORE15.Pages
             productsView.Refresh();
         }
 
+
+        private void SortName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (productsView == null) return;
+            var cb = sender as ComboBox;
+            if (cb?.SelectedItem is not ComboBoxItem selected) return;
+
+            productsView.SortDescriptions.Clear();
+
+            if (selected.Tag?.ToString() == "nameAZ")
+                productsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            else if (selected.Tag?.ToString() == "nameZA")
+                productsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+
+            productsView.Refresh();
+        }
 
         private void SortComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

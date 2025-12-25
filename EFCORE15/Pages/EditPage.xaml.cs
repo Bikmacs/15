@@ -99,34 +99,51 @@ namespace EFCORE15.Pages
 
         private void Edit(object sender, RoutedEventArgs e)
         {
+            // 1. Проверка на пустые поля (оставляем как было)
             if (string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) || string.IsNullOrEmpty(Price.Text)
                 || string.IsNullOrEmpty(Stock.Text) || string.IsNullOrEmpty(Rating.Text))
             {
                 MessageBox.Show("Заполните все поля", "Внимание",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            else if (Product.CategoryId == 0)
+
+            
+            if (Validation.GetHasError(Name) ||
+                Validation.GetHasError(Price) ||
+                Validation.GetHasError(Stock) ||
+                Validation.GetHasError(Rating) ||
+                Validation.GetHasError(Description))
             {
-                MessageBox.Show(
-                    "Выберите категорию",
-                    "Ошибка",
+                MessageBox.Show("Введены некорректные данные (например, отрицательная цена или неверный формат рейтинга).\nИсправьте ошибки, выделенные красным.",
+                    "Ошибка валидации",
                     MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxImage.Error);
+                return; 
             }
-            else if (Product.BrandId == 0)
+
+            if (Product.CategoryId == 0)
             {
-                MessageBox.Show(
-                    "Выберите бренд",
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                MessageBox.Show("Выберите категорию", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            else
+
+            if (Product.BrandId == 0)
+            {
+                MessageBox.Show("Выберите бренд", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
             {
                 service.Commit();
-                MessageBox.Show("Изменения сохранены", "Готово",
+                MessageBox.Show("Изменения успешно сохранены", "Готово",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 Back(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -187,5 +204,7 @@ namespace EFCORE15.Pages
 
             SelectedProductTag = null;
         }
+
+     
     }
 }

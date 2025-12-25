@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace EFCORE15.Validators
 {
-    public class BrandCateValidator : ValidationRule
+    public class BrandValidator : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

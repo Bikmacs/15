@@ -8,13 +8,13 @@
       xmlns:validator="clr-namespace:EFCORE15.Validators"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Редактирование категории">
+      Background="{DynamicResource MaterialDesignPaper}">
 
     <Page.Resources>
-        <validator:BrandCateValidator x:Key="brandCategoryTagValidator"/>
+        <validator:BrandValidator x:Key="brandCategoryTagValidator"/>
     </Page.Resources>
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
         <materialDesign:Card Margin="0" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" UniformCornerRadius="8">
             <StackPanel>
                 <TextBlock Text="Редактирование категории" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="0,0,0,20"/>
@@ -24,7 +24,7 @@
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
-                                <validator:BrandCateValidator/>
+                                <validator:BrandValidator/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>

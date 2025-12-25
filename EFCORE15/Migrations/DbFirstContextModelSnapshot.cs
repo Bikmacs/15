@@ -11,7 +11,7 @@ using EFCORE15.Models;
 namespace EFCORE15.Migrations
 {
     [DbContext(typeof(ElectronicsStoreContext))]
-    partial class ElectronicsStoreContextModelSnapshot : ModelSnapshot
+    partial class DbFirstContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

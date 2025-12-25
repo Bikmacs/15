@@ -9,6 +9,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="900"
       Loaded="LoadList"
+      Background="{DynamicResource MaterialDesignPaper}"
       Title="Добавление товара">
 
     <Page.Resources>
@@ -17,7 +18,6 @@
         <validator:StockValidator x:Key="stockValidator"/>
         <validator:RatingValidator x:Key="ratingValidator"/>
         <validator:DescriptionValidator x:Key="descriptionValidator"/>
-        <validator:ComboBoxValidator x:Key="comboBoxValidator"/>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -41,9 +41,9 @@
                     <TextBox x:Name="Name" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              materialDesign:HintAssist.Hint="Название товара" Margin="0,0,0,15">
                         <TextBox.Text>
-                            <Binding Path="Product.Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                            <Binding Path="Product.Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                 <Binding.ValidationRules>
-                                    <validator:NameValidator/>
+                                    <validator:NameValidator ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -86,9 +86,9 @@
 
                         <TextBox x:Name="Price" Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Цена">
                             <TextBox.Text>
-                                <Binding Path="Product.Price" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Product.Price" UpdateSourceTrigger="LostFocus" NotifyOnValidationError="True" StringFormat="F2">
                                     <Binding.ValidationRules>
-                                        <validator:PriceValidator/>
+                                        <validator:PriceValidator ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -96,9 +96,9 @@
 
                         <TextBox x:Name="Stock" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Склад">
                             <TextBox.Text>
-                                <Binding Path="Product.Stock" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Product.Stock" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <validator:StockValidator/>
+                                        <validator:StockValidator ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -106,9 +106,9 @@
 
                         <TextBox x:Name="Rating" Grid.Column="4" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Рейтинг">
                             <TextBox.Text>
-                                <Binding Path="Product.Rating" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Product.Rating" UpdateSourceTrigger="LostFocus" NotifyOnValidationError="True" StringFormat="F1">
                                     <Binding.ValidationRules>
-                                        <validator:RatingValidator/>
+                                        <validator:RatingValidator ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -122,18 +122,42 @@
                              Height="120" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                              AcceptsReturn="True" Margin="0,0,0,15">
                         <TextBox.Text>
-                            <Binding Path="Product.Description" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Product.Description" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                 <Binding.ValidationRules>
-                                    <validator:DescriptionValidator/>
+                                    <validator:DescriptionValidator ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
 
                     <TextBlock Text="Теги:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    
+                    <Grid Height="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <ListBox x:Name="TagList" Height="100" SelectionMode="Multiple"
-                             ItemsSource="{Binding Tags}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                        <GroupBox Header="Доступные" Grid.Column="0" Padding="0">
+                            <ListBox ItemsSource="{Binding Tags}" 
+                                     SelectedItem="{Binding SelectedTag}" 
+                                     DisplayMemberPath="Name" 
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        </GroupBox>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5">
+                            <Button Content=">" Click="AddTag" ToolTip="Добавить тег" Margin="0,0,0,10" Width="30" Padding="0"/>
+                            <Button Content="&lt;" Click="RemoveTag" ToolTip="Убрать тег" Width="30" Padding="0"/>
+                        </StackPanel>
+
+                        <GroupBox Header="Выбранные" Grid.Column="2" Padding="0">
+                            <ListBox ItemsSource="{Binding ProductTags}" 
+                                     SelectedItem="{Binding SelectedProductTag}" 
+                                     DisplayMemberPath="Name" 
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        </GroupBox>
+                    </Grid>
                 </StackPanel>
             </Grid>
 

@@ -7,24 +7,21 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
-      Title="Авторизация">
+      Background="{StaticResource MaterialDesign.Brush.Background}"
+      >
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
         <materialDesign:Card Width="350" Padding="25" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel>
-                <TextBlock Text="Вход в систему" Style="{StaticResource MaterialDesignHeadline5TextBlock}" 
+                <TextBlock Text="Вход в систему" Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                            HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
                 <StackPanel x:Name="RoleSelectionPanel" Visibility="Visible">
-                    <TextBlock Text="Выберите режим работы:" HorizontalAlignment="Center" Foreground="Gray" Margin="0,0,0,15"/>
 
-                    <Button Click="UserLogin" Content="Посетитель" Margin="0,5" 
-                            Style="{StaticResource MaterialDesignOutlinedButton}"/>
-                    <Button Click="ShowPinPanel" Content="Менеджер" Margin="0,5" 
-                            Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    <Button Click="UserLogin" Content="Посетитель" Margin="0,5"/>
                 </StackPanel>
 
-                <StackPanel x:Name="PinCodePanel" Visibility="Collapsed">
+                <StackPanel x:Name="PinCodePanel">
                     <TextBlock Text="Введите PIN-код" HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
                     <PasswordBox x:Name="PinCodeField" MaxLength="4"
@@ -37,8 +34,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Click="BackToRoles" Content="Отмена" 
-                                Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,5,0"/>
+                        <Button Grid.Column="0" Click="BackToRoles" Content="Отмена" Margin="0,0,5,0"/>
                         <Button Grid.Column="1" Click="CheckPinAndLogin" Content="Войти" Margin="5,0,0,0"/>
                     </Grid>
                 </StackPanel>

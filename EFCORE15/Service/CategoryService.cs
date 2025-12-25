@@ -23,7 +23,23 @@ namespace EFCORE15.Service
             foreach (var category in categories)
                 Categories.Add(category);
         }
+        public void Remove(Category category)
+        {
+            bool hasProducts = _db.Products.Any(p => p.CategoryId == category.Id);
 
+            if (hasProducts)
+            {
+                MessageBox.Show("Нельзя удалить категорию, в которой есть товары");
+            }
+            else
+            {
+                _db.Categories.Remove(category);
+                Commit();
+
+                if (Categories.Contains(category))
+                    Categories.Remove(category);
+            }
+        }
         public CategoryService()
         {
             GetAll();
@@ -54,22 +70,8 @@ namespace EFCORE15.Service
             Categories.Add(_сategory);
         }
 
-        public void Remove(Category category)
-        {
-            bool hasProducts = _db.Products.Any(p => p.CategoryId == category.Id);
 
-            if (hasProducts)
-            {
-                MessageBox.Show("Нельзя удалить категорию, в которой есть товары");
-            }
-            else
-            {
-                _db.Categories.Remove(category);
-                Commit();
 
-                if (Categories.Contains(category))
-                    Categories.Remove(category);
-            }
-        }
     }
 }
+

@@ -20,14 +20,6 @@ namespace EFCORE15.Pages
             NavigationService.Navigate(new MainPage(false));
         }
 
-        private void ShowPinPanel(object sender, RoutedEventArgs e)
-        {
-            RoleSelectionPanel.Visibility = Visibility.Collapsed;
-            PinCodePanel.Visibility = Visibility.Visible;
-
-            PinCodeField.Password = ""; 
-        }
-
         private void CheckPinAndLogin(object sender, RoutedEventArgs e)
         {
             if (PinCodeField.Password == pinCode)

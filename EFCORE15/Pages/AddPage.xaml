@@ -7,9 +7,10 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Панель управления" Loaded="LoadList">
+      Background="{DynamicResource MaterialDesignPaper}"
+      Loaded="LoadList">
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

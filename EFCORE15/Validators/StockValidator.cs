@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 namespace EFCORE15.Validators
@@ -14,13 +9,17 @@ namespace EFCORE15.Validators
         {
             var input = (value ?? "").ToString().Trim();
 
-            if (input == string.Empty)
+            if (string.IsNullOrEmpty(input))
                 return new ValidationResult(false, "Ввод поля обязателен");
 
-            foreach (char c in input)
+            if (!int.TryParse(input, out int stock))
             {
-                if (!char.IsDigit(c) && c != '.' && c != ',')
-                    return new ValidationResult(false, "Введите число!");
+                return new ValidationResult(false, "Введите целое число!");
+            }
+
+            if (stock < 0)
+            {
+                return new ValidationResult(false, "Количество не может быть отрицательным");
             }
 
             return ValidationResult.ValidResult;

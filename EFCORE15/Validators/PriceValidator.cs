@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace EFCORE15.Validators
@@ -14,17 +10,32 @@ namespace EFCORE15.Validators
         {
             var input = (value ?? "").ToString().Trim();
 
-            if (input == string.Empty)
-                return new ValidationResult(false, "Ввод поля обязателен");
+            if (string.IsNullOrEmpty(input))
+                return new ValidationResult(false, "Цена обязательна");
 
-            foreach (char c in input)
+            bool isNumber = decimal.TryParse(input.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out var price)
+                         || decimal.TryParse(input, NumberStyles.Any, CultureInfo.CurrentCulture, out price);
+
+            if (!isNumber)
             {
-                if (!char.IsDigit(c) && c != '.' && c != ',')
-                    return new ValidationResult(false, "Введите число!");
+                return new ValidationResult(false, "Введите корректное число");
             }
 
-            if (Convert.ToDecimal(input) < 0)
-                return new ValidationResult(false, "Цена не может быть отрицательна");
+            if (price < 0)
+            {
+                return new ValidationResult(false, "Цена не может быть отрицательной");
+            }
+
+        
+            if (price != Math.Round(price, 2))
+            {
+                return new ValidationResult(false, "Максимум 2 знака после запятой (например 10.99)");
+            }
+
+            if (price > 99999999999999.99m)
+            {
+                return new ValidationResult(false, "Слишком большая сумма");
+            }
 
             return ValidationResult.ValidResult;
         }

@@ -8,10 +8,10 @@
       xmlns:validator="clr-namespace:EFCORE15.Validators"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Добавление тега">
+      Background="{DynamicResource MaterialDesignPaper}">
 
     <Page.Resources>
-        <validator:BrandCateValidator x:Key="brandCategoryTagValidator"/>
+        <validator:BrandValidator x:Key="brandCategoryTagValidator"/>
     </Page.Resources>
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
@@ -24,7 +24,7 @@
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
-                                <validator:BrandCateValidator/>
+                                <validator:BrandValidator/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
