@@ -97,7 +97,6 @@ namespace EFCORE15.Pages
 
         private void AddProduct(object sender, RoutedEventArgs e)
         {
-            // 1. Проверка на пустые поля
             if (string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) || string.IsNullOrEmpty(Price.Text)
                 || string.IsNullOrEmpty(Stock.Text) || string.IsNullOrEmpty(Rating.Text))
             {
@@ -112,7 +111,7 @@ namespace EFCORE15.Pages
                 Validation.GetHasError(Rating) ||
                 Validation.GetHasError(Description))
             {
-                MessageBox.Show("Введены некорректные данные.\nИсправьте ошибки, выделенные красным.",
+                MessageBox.Show("Введены некорректные данные",
                     "Ошибка валидации",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

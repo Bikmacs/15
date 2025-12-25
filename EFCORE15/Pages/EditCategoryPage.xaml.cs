@@ -54,7 +54,7 @@ namespace EFCORE15.Pages
         {
             if (_category != null)
                 if (MessageBox.Show(
-                    "Вы действительно хотите удалить это?",
+                    "Вы действительно хотите удалить?",
                     "Удалить группу?",
                     MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {

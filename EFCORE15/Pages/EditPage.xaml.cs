@@ -115,7 +115,7 @@ namespace EFCORE15.Pages
                 Validation.GetHasError(Rating) ||
                 Validation.GetHasError(Description))
             {
-                MessageBox.Show("Введены некорректные данные (например, отрицательная цена или неверный формат рейтинга).\nИсправьте ошибки, выделенные красным.",
+                MessageBox.Show("Введены некорректные данные",
                     "Ошибка валидации",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -151,7 +151,7 @@ namespace EFCORE15.Pages
         {
             if (Product != null)
                 if (MessageBox.Show(
-                    "Вы действительно хотите удалить это?",
+                    "Вы действительно хотите удалить?",
                     "Удалить группу?",
                     MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
